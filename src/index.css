@@ -147,7 +147,7 @@ main > section {
 .hero {
   align-items: center;
   display: grid;
-  grid-template-columns: minmax(0, 1.08fr) minmax(400px, 0.92fr);
+  grid-template-columns: minmax(0, 1fr);
   min-height: min(900px, 100vh);
   padding: 140px clamp(24px, 7vw, 112px) 60px;
   position: relative;
@@ -163,9 +163,14 @@ main > section {
   z-index: -1;
 }
 .hero-copy {
-  max-width: 720px;
+  max-width: 1020px;
   position: relative;
   z-index: 2;
+}
+.hero h1 {
+  font-size: clamp(64px, 10vw, 132px);
+  line-height: 0.92;
+  margin: 28px 0 24px;
 }
 .eyebrow,
 .kicker {
@@ -412,17 +417,19 @@ em {
   max-width: 410px;
 }
 .work-section {
-  background: var(--cream);
+  background: #f4f4f2;
 }
 .projects-grid {
   display: grid;
   gap: 20px;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-inline: auto;
+  max-width: 1200px;
 }
 .project-card {
-  background: var(--paper);
-  border: 1px solid rgba(23, 26, 43, 0.08);
-  border-radius: 3px;
+  background: #fff;
+  border: 1px solid #dededb;
+  border-radius: 8px;
   min-width: 0;
   overflow: hidden;
   transition:
@@ -430,25 +437,14 @@ em {
     box-shadow 0.3s;
 }
 .project-card:hover {
-  box-shadow: 0 20px 50px rgba(38, 49, 100, 0.11);
-  transform: translateY(-5px);
+  box-shadow: 0 10px 24px rgba(23, 26, 43, 0.08);
+  transform: translateY(-2px);
 }
 .project-visual {
-  height: 285px;
+  background: #f1f1ef;
+  height: 205px;
   overflow: hidden;
   position: relative;
-}
-.project-card.coral .project-visual {
-  background: #f4d4d1;
-}
-.project-card.blue .project-visual {
-  background: #cedcf5;
-}
-.project-card.lime .project-visual {
-  background: #d9d8f5;
-}
-.project-card.violet .project-visual {
-  background: #e2d8f2;
 }
 .project-number {
   font-family: "DM Mono";
@@ -464,9 +460,21 @@ em {
   width: 100%;
 }
 .project-image-link img {
+  filter: grayscale(100%);
   height: 100%;
   object-fit: contain;
   width: 100%;
+}
+.project-placeholder {
+  align-items: center;
+  color: #555;
+  display: flex;
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  height: 100%;
+  justify-content: center;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 .project-content h3 a:hover {
   text-decoration: underline;
@@ -474,7 +482,7 @@ em {
 }
 .project-arrow {
   align-items: center;
-  background: rgba(251, 250, 246, 0.86);
+  background: rgba(255, 255, 255, 0.92);
   border-radius: 50%;
   display: flex;
   height: 39px;
@@ -793,17 +801,40 @@ em {
   margin-bottom: 50px;
 }
 .involvement-grid {
-  border-bottom: 1px solid var(--line);
-  border-top: 1px solid var(--line);
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  gap: 18px 24px;
+  grid-template-columns: 24px minmax(0, 1fr);
+  margin-inline: auto;
+  max-width: 900px;
+  position: relative;
+}
+.involvement-grid::before {
+  background: #c9c9c5;
+  content: "";
+  left: 10px;
+  position: absolute;
+  top: 28px;
+  bottom: 28px;
+  width: 1px;
 }
 .involvement-grid article {
-  padding: 35px 35px 40px 0;
+  background: #fff;
+  border: 1px solid #dededb;
+  border-radius: 8px;
+  grid-column: 2;
+  padding: 25px 28px 28px;
+  position: relative;
 }
-.involvement-grid article + article {
-  border-left: 1px solid var(--line);
-  padding-left: 35px;
+.involvement-grid article::before {
+  background: #fff;
+  border: 2px solid #777;
+  border-radius: 50%;
+  content: "";
+  height: 12px;
+  left: -44px;
+  position: absolute;
+  top: 28px;
+  width: 12px;
 }
 .involvement-grid span {
   color: #6d748b;
@@ -818,7 +849,7 @@ em {
   margin: 24px 0 4px;
 }
 .involvement-grid p {
-  color: #59699f;
+  color: #555;
   font-family: "DM Mono";
   font-size: 9px;
   text-transform: uppercase;
@@ -957,6 +988,9 @@ footer > a {
   .hero-copy {
     max-width: 780px;
   }
+  .projects-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
   .hero-art {
     height: 440px;
     justify-self: center;
@@ -999,7 +1033,7 @@ footer > a {
     padding: 120px 20px 70px;
   }
   .hero h1 {
-    font-size: clamp(47px, 14vw, 66px);
+    font-size: clamp(42px, 12vw, 70px);
   }
   .hero-copy > p {
     font-size: 14px;
@@ -1089,15 +1123,19 @@ footer > a {
     grid-template-columns: 20px 80px 1fr;
   }
   .involvement-grid {
-    grid-template-columns: 1fr;
+    gap: 14px 14px;
+    grid-template-columns: 24px minmax(0, 1fr);
   }
   .involvement-grid article {
-    padding: 30px 0;
+    padding: 22px 18px;
   }
   .involvement-grid article + article {
-    border-left: 0;
-    border-top: 1px solid var(--line);
-    padding-left: 0;
+    border-left: 1px solid #dededb;
+    border-top: 1px solid #dededb;
+    padding-left: 18px;
+  }
+  .involvement-grid article::before {
+    left: -34px;
   }
   .contact-section {
     gap: 60px;

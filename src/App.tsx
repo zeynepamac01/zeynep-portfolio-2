@@ -60,48 +60,61 @@ function Icon({ name, size = 20 }: { name: IconName; size?: number }) {
   );
 }
 
-const projects = [
+type Project = {
+  number: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  tags: string[];
+  image?: string;
+  href?: string;
+};
+
+const projects: Project[] = [
   {
     number: "01",
+    title: "Upcoming project",
+    subtitle: "In progress",
+    description: "A new project is in development. Check back soon for details.",
+    tags: ["Coming soon"],
+  },
+  {
+    number: "02",
     title: "Human Reference Atlas — Organ Visualizations",
     subtitle: "Research · Cyberinfrastructure for Network Science Center",
     description:
       "Updated and validated 4,000+ anatomical structures, adapted the pipeline to generate organ-specific multiscale trees, and built a Python utility for future Atlas releases. Presented the work at IU’s 2025 Summer Poster Symposium and contributed visual content to MIT Press’s Atlas of Macroscopes.",
     tags: ["Python", "Vega", "Jupyter"],
-    accent: "coral",
     image: sitePath("legacy/vega_mouth_tree_viz.svg"),
     href: sitePath("legacy/project-human-reference-atlas.html"),
   },
   {
-    number: "02",
+    number: "03",
     title: "Environmental Awareness Bee Game",
     subtitle: "Educational game · C",
     description:
       "A grid-based educational game built in C, using arrays, structs, and file handling to teach environmental decision-making through gameplay.",
     tags: ["C", "Game logic", "Education"],
-    accent: "blue",
     image: sitePath("legacy/Bee_game_ss.png"),
     href: sitePath("legacy/project-bee-game.html"),
   },
   {
-    number: "03",
+    number: "04",
     title: "Robot Rescue",
     subtitle: "AI literacy · Educational design",
     description:
       "An educational board game prototype introducing AI literacy and iterative learning to students ages 10–14 through tactile, collaborative play.",
     tags: ["Design", "Robotics", "Teaching"],
-    accent: "lime",
     image: sitePath("legacy/robot_rescue_photo.png"),
     href: sitePath("legacy/project-robot-rescue.html"),
   },
   {
-    number: "04",
-    title: "FTU & VCCF",
+    number: "05",
+    title: "FTU & VCCF Connection Visualization",
     subtitle: "Scientific visualization · MIT Press",
     description:
       "A scientific visualization showing connections between functional tissue units and the vascular common coordinate framework across anatomical scales.",
     tags: ["Python", "Data viz", "Research"],
-    accent: "violet",
     image: sitePath("legacy/large_intestine_vasculature_ftus_vega.svg"),
     href: sitePath("legacy/project-macroscopes.html"),
   },
@@ -172,11 +185,17 @@ export default function App() {
           <strong>Zeynep S. Amac</strong>
         </a>
         <nav className={menuOpen ? "is-open" : ""} aria-label="Main navigation">
+          <a href="#home" onClick={closeMenu}>
+            Home
+          </a>
           <a href="#work" onClick={closeMenu}>
             Work
           </a>
           <a href="#experience" onClick={closeMenu}>
             Experience
+          </a>
+          <a href="#involvement" onClick={closeMenu}>
+            Involvement
           </a>
           <a href="#about" onClick={closeMenu}>
             About
@@ -199,52 +218,17 @@ export default function App() {
         <section className="hero" id="home">
           <div className="hero-grid" />
           <div className="hero-copy">
-            <div className="eyebrow">
-              <span /> Intelligent Systems Engineering
-            </div>
-            <h1>
-              I turn complex data into <em>clear, human</em> experiences.
-            </h1>
-            <p>
-              Engineering student and researcher at Indiana University, building visualization tools
-              at the intersection of data, design, and human health.
-            </p>
+            <div className="eyebrow"><span /> Portfolio · Bloomington, Indiana</div>
+            <h1>Zeynep S. Amac</h1>
+            <p>Intelligent Systems Engineering student at Indiana University, building visualization pipelines for the Human Reference Atlas.</p>
             <div className="hero-actions">
               <a className="button primary" href="#work">
                 Explore my work <Icon name="arrow" size={17} />
-              </a>
-              <a className="button text-button" href="#experience">
-                View experience
               </a>
               <a className="button text-button" href={sitePath("legacy/Zeynep_S_Amac_CV.pdf")} target="_blank" rel="noreferrer">
                 Download CV <Icon name="external" size={16} />
               </a>
             </div>
-          </div>
-          <div className="hero-art" aria-label="Abstract systems visualization">
-            <div className="orbit orbit-one" />
-            <div className="orbit orbit-two" />
-            <div className="art-card card-code">
-              <Icon name="code" />
-              <span>BUILDING WITH</span>
-              <strong>Python · Data · Design</strong>
-            </div>
-            <div className="art-card card-status">
-              <i />
-              <span>
-                AVAILABLE FOR
-                <br />
-                <strong>2026 opportunities</strong>
-              </span>
-            </div>
-            <div className="core">
-              <span>ISE</span>
-              <small>ENGINEER</small>
-            </div>
-            <span className="node n1" />
-            <span className="node n2" />
-            <span className="node n3" />
-            <span className="node n4" />
           </div>
           <div className="hero-foot">
             <span>Based in Bloomington, Indiana</span>
@@ -257,10 +241,8 @@ export default function App() {
         <section className="section work-section" id="work">
           <div className="section-heading">
             <div>
-              <div className="kicker">01 / Selected work</div>
-              <h2>
-                Projects with <em>purpose.</em>
-              </h2>
+              <div className="kicker">01 / Work</div>
+              <h2>Selected work</h2>
             </div>
             <p>
               Research, education, and visualization projects designed to make technical ideas
@@ -269,19 +251,21 @@ export default function App() {
           </div>
           <div className="projects-grid">
             {projects.map((project) => (
-              <article className={`project-card ${project.accent}`} key={project.number}>
+              <article className="project-card" key={project.number}>
                 <div className="project-visual">
                   <span className="project-number">{project.number}</span>
-                  <a className="project-image-link" href={project.href} aria-label={`Read more about ${project.title}`}>
-                    <img src={project.image} alt={project.title} />
-                  </a>
-                  <a className="project-arrow" href={project.href} aria-label={`Read more about ${project.title}`}>
-                    <Icon name="external" size={18} />
-                  </a>
+                  {project.image && project.href ? (
+                    <a className="project-image-link" href={project.href} aria-label={`Read more about ${project.title}`}>
+                      <img src={project.image} alt={project.title} />
+                    </a>
+                  ) : (
+                    <div className="project-placeholder"><span>Upcoming project</span></div>
+                  )}
+                  {project.href && <a className="project-arrow" href={project.href} aria-label={`Read more about ${project.title}`}><Icon name="external" size={18} /></a>}
                 </div>
                 <div className="project-content">
                   <p>{project.subtitle}</p>
-                  <h3><a href={project.href}>{project.title}</a></h3>
+                  <h3>{project.href ? <a href={project.href}>{project.title}</a> : project.title}</h3>
                   <div className="project-description">{project.description}</div>
                   <div className="tags">
                     {project.tags.map((tag) => (
@@ -322,10 +306,51 @@ export default function App() {
           </div>
         </section>
 
+        <section className="section involvement-section">
+          <div className="section-heading compact">
+            <div>
+              <div className="kicker">03 / Community</div>
+              <h2>Involvement</h2>
+            </div>
+          </div>
+          <div className="involvement-grid">
+            <article>
+              <span>Leadership</span>
+              <h3>Director of Marketing & Communications</h3>
+              <p>ColorStack at IU</p>
+              <small>
+                Managing chapter branding, social media, promotional content, and communications for an inclusive computing community.
+              </small>
+            </article>
+            <article>
+              <span>Community</span>
+              <h3>Member</h3>
+              <p>Turkish Student Association at IU</p>
+              <small>
+                Supporting cultural events and a welcoming community; the association organizes annual events for 300+ attendees.
+              </small>
+            </article>
+            <article>
+              <span>Recognition</span>
+              <h3>Hackathon Participant</h3>
+              <p>HRA &amp; Whole Person Physiome Hackathon · Aug 2026</p>
+              <small>
+                Collaborated across institutions to advance AI-ready biomedical data, visualization methods, and computational tools integrating anatomical and physiological data.
+              </small>
+            </article>
+            <article>
+              <span>Conference</span>
+              <h3>Grace Hopper Celebration</h3>
+              <p>Chicago, IL · Nov 2025</p>
+              <small>Selected as one of 40 students from more than 200 applicants.</small>
+            </article>
+          </div>
+        </section>
+
         <section className="about-section" id="about">
           <div className="about-panel">
             <div className="about-copy">
-              <div className="kicker light">03 / About me</div>
+              <div className="kicker light">04 / About me</div>
               <h2>
                 Engineer in training.
                 <br />
@@ -360,49 +385,6 @@ export default function App() {
                 </div>
               ))}
             </div>
-          </div>
-        </section>
-
-        <section className="section involvement-section">
-          <div className="section-heading compact">
-            <div>
-              <div className="kicker">04 / Beyond the lab</div>
-              <h2>
-                Community & <em>involvement.</em>
-              </h2>
-            </div>
-          </div>
-          <div className="involvement-grid">
-            <article>
-              <span>Leadership</span>
-              <h3>Director of Marketing & Communications</h3>
-              <p>ColorStack at IU</p>
-              <small>
-                Managing chapter branding, social media, promotional content, and communications for an inclusive computing community.
-              </small>
-            </article>
-            <article>
-              <span>Community</span>
-              <h3>Member</h3>
-              <p>Turkish Student Association at IU</p>
-              <small>
-                Supporting cultural events and a welcoming community; the association organizes annual events for 300+ attendees.
-              </small>
-            </article>
-            <article>
-              <span>Recognition</span>
-              <h3>Hackathon Participant</h3>
-              <p>HRA &amp; Whole Person Physiome Hackathon · Aug 2026</p>
-              <small>
-                Collaborated across institutions to advance AI-ready biomedical data, visualization methods, and computational tools integrating anatomical and physiological data.
-              </small>
-            </article>
-            <article>
-              <span>Conference</span>
-              <h3>Grace Hopper Celebration</h3>
-              <p>Chicago, IL · Nov 2025</p>
-              <small>Selected as one of 40 students from more than 200 applicants.</small>
-            </article>
           </div>
         </section>
 
