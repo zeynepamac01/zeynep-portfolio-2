@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type IconName = "arrow" | "code" | "external" | "menu" | "spark" | "x";
 
@@ -58,6 +58,117 @@ function Icon({ name, size = 20 }: { name: IconName; size?: number }) {
       {paths[name]}
     </svg>
   );
+}
+
+function ParticleField() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const context = canvas?.getContext("2d");
+    if (!canvas || !context) return;
+
+    type Point = { x: number; y: number; vx: number; vy: number; radius: number; phase: number; color: string };
+    const points: Point[] = [];
+    const colors = ["#72e8d0", "#86aaff", "#d29cff"];
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let width = 0;
+    let height = 0;
+    let pixelRatio = 1;
+    let frame = 0;
+
+    const draw = (time = 0) => {
+      context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+      context.clearRect(0, 0, width, height);
+
+      const glow = context.createRadialGradient(width * 0.68, height * 0.48, 0, width * 0.68, height * 0.48, width * 0.62);
+      glow.addColorStop(0, "rgba(27, 66, 78, 0.28)");
+      glow.addColorStop(0.58, "rgba(15, 30, 42, 0.12)");
+      glow.addColorStop(1, "rgba(5, 8, 13, 0)");
+      context.fillStyle = glow;
+      context.fillRect(0, 0, width, height);
+
+      if (!reducedMotion) {
+        for (const point of points) {
+          point.x += point.vx;
+          point.y += point.vy;
+          if (point.x < -4) point.x = width + 4;
+          if (point.x > width + 4) point.x = -4;
+          if (point.y < -4) point.y = height + 4;
+          if (point.y > height + 4) point.y = -4;
+        }
+      }
+
+      const maxDistance = Math.min(150, Math.max(92, width * 0.12));
+      for (let i = 0; i < points.length; i += 1) {
+        const point = points[i];
+        for (let j = i + 1; j < points.length; j += 1) {
+          const other = points[j];
+          const dx = point.x - other.x;
+          const dy = point.y - other.y;
+          const distance = Math.hypot(dx, dy);
+          if (distance < maxDistance) {
+            context.beginPath();
+            context.moveTo(point.x, point.y);
+            context.lineTo(other.x, other.y);
+            context.strokeStyle = `rgba(116, 202, 214, ${(1 - distance / maxDistance) * 0.2})`;
+            context.lineWidth = 0.7;
+            context.stroke();
+          }
+        }
+      }
+
+      for (const point of points) {
+        const pulse = reducedMotion ? 1 : 0.82 + Math.sin(time * 0.0012 + point.phase) * 0.18;
+        context.beginPath();
+        context.arc(point.x, point.y, point.radius * pulse, 0, Math.PI * 2);
+        context.fillStyle = point.color;
+        context.shadowColor = point.color;
+        context.shadowBlur = 8;
+        context.fill();
+        context.shadowBlur = 0;
+      }
+    };
+
+    const resize = () => {
+      const bounds = canvas.getBoundingClientRect();
+      width = bounds.width;
+      height = bounds.height;
+      pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.round(width * pixelRatio);
+      canvas.height = Math.round(height * pixelRatio);
+
+      const count = Math.min(115, Math.max(46, Math.round((width * height) / 9000)));
+      points.length = 0;
+      for (let i = 0; i < count; i += 1) {
+        points.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          vx: (Math.random() - 0.5) * 0.28,
+          vy: (Math.random() - 0.5) * 0.24,
+          radius: Math.random() < 0.12 ? 2 : 0.8 + Math.random() * 0.8,
+          phase: Math.random() * Math.PI * 2,
+          color: colors[Math.floor(Math.random() * colors.length)],
+        });
+      }
+      draw();
+    };
+
+    const animate = (time: number) => {
+      draw(time);
+      if (!reducedMotion) frame = window.requestAnimationFrame(animate);
+    };
+
+    resize();
+    if (!reducedMotion) frame = window.requestAnimationFrame(animate);
+    window.addEventListener("resize", resize);
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.removeEventListener("resize", resize);
+    };
+  }, []);
+
+  return <canvas ref={canvasRef} className="particle-field" aria-hidden="true" />;
 }
 
 type Project = {
@@ -209,6 +320,7 @@ export default function App() {
       <main>
         <section className="hero" id="home">
           <div className="hero-grid" />
+          <ParticleField />
           <div className="hero-copy">
             <div className="eyebrow"><span /> Portfolio · Bloomington, Indiana</div>
             <h1>Zeynep S. Amac</h1>

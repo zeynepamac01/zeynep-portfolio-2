@@ -129,6 +129,18 @@ main > section {
 .site-header nav a:hover {
   color: var(--ink);
 }
+.site-header:not(.is-scrolled) .brand > span {
+  background: #e8edf3;
+  color: #10151d;
+}
+.site-header:not(.is-scrolled) .brand strong,
+.site-header:not(.is-scrolled) nav a,
+.site-header:not(.is-scrolled) .menu-button {
+  color: #e4eaf1;
+}
+.site-header:not(.is-scrolled) nav a:hover {
+  color: #fff;
+}
 .button svg,
 .about-copy a svg {
   transition: transform 0.2s;
@@ -146,21 +158,33 @@ main > section {
 
 .hero {
   align-items: center;
+  background: #06090f;
+  color: #f4f6f8;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   min-height: min(900px, 100vh);
+  overflow: hidden;
   padding: 140px clamp(24px, 7vw, 112px) 60px;
   position: relative;
 }
 .hero-grid {
   background-image:
-    linear-gradient(rgba(57, 72, 132, 0.045) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(57, 72, 132, 0.045) 1px, transparent 1px);
-  background-size: 48px 48px;
+    linear-gradient(rgba(134, 184, 194, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(134, 184, 194, 0.055) 1px, transparent 1px);
+  background-size: 56px 56px;
   inset: 0;
-  mask-image: linear-gradient(to right, black, transparent 78%);
+  mask-image: radial-gradient(ellipse at 70% 50%, black, transparent 82%);
   position: absolute;
-  z-index: -1;
+  pointer-events: none;
+  z-index: 1;
+}
+.particle-field {
+  height: 100%;
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+  width: 100%;
+  z-index: 0;
 }
 .hero-copy {
   max-width: 1020px;
@@ -171,6 +195,28 @@ main > section {
   font-size: clamp(64px, 10vw, 132px);
   line-height: 0.92;
   margin: 28px 0 24px;
+}
+.hero .eyebrow,
+.hero-foot {
+  color: #aab6c4;
+}
+.hero .eyebrow span {
+  background: #72e8d0;
+  box-shadow: 0 0 12px rgba(114, 232, 208, 0.55);
+}
+.hero-copy > p {
+  color: #b3bfcc;
+}
+.hero .button.primary {
+  background: #eef4f8;
+  color: #10151c;
+}
+.hero .button.text-button {
+  border-color: rgba(238, 244, 248, 0.55);
+  color: #eef4f8;
+}
+.hero-foot {
+  z-index: 2;
 }
 .eyebrow,
 .kicker {
