@@ -1,0 +1,10 @@
+{
+  "description": "A professional portfolio website for an engineering student to showcase projects, skills, and experience with easy navigation from a fixed menu.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
