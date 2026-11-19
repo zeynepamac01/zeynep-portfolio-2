@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react";
+import { useState } from "react";
 
 type IconName = "arrow" | "code" | "external" | "menu" | "spark" | "x";
 
@@ -164,14 +164,6 @@ export default function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
-  const submitContact = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    const subject = encodeURIComponent(String(data.get("subject") || "Portfolio inquiry"));
-    const body = encodeURIComponent(`${data.get("message")}\n\nFrom: ${data.get("email")}`);
-    window.location.href = `mailto:zsamac@iu.edu?subject=${subject}&body=${body}`;
-  };
-
   const closeMenu = () => setMenuOpen(false);
 
   return (
@@ -226,7 +218,7 @@ export default function App() {
                 Explore my work <Icon name="arrow" size={17} />
               </a>
               <a className="button text-button" href={sitePath("legacy/Zeynep_S_Amac_CV.pdf")} target="_blank" rel="noreferrer">
-                Download CV <Icon name="external" size={16} />
+                View resume (PDF) <Icon name="external" size={16} />
               </a>
             </div>
           </div>
@@ -351,24 +343,14 @@ export default function App() {
           <div className="about-panel">
             <div className="about-copy">
               <div className="kicker light">04 / About me</div>
-              <h2>
-                Engineer in training.
-                <br />
-                <em>Problem solver</em> at heart.
-              </h2>
-              <p>
-                I’m pursuing a Bachelor of Science in Intelligent Systems Engineering with a bioengineering concentration at Indiana University, graduating in May 2029. I’m a Luddy Living Learning member, Hutton Honors Scholar, Provost Scholar, and Groups Scholar. My work sits at the intersection of biology, data visualization, and design.
+              <h2>About me</h2>
+              <img className="about-photo" src={sitePath("legacy/assets/portrait.jpg")} alt="Portrait of Zeynep S. Amac" />
+              <p className="about-bio">
+                I’m an Intelligent Systems Engineering student at Indiana University, graduating in May 2029 with a bioengineering concentration. I’m a Hutton Honors Scholar, Provost Scholar, and Groups Scholar. My interests bring biology, data visualization, and design together.
               </p>
-              <p>
-                Outside the lab, you’ll find me exploring visual design, mentoring students, or
-                finding the clearest way to tell a story with data.
-              </p>
-              <a href={sitePath("legacy/engineering-ethics.html")}>Read my engineering ethics page <Icon name="external" size={16} /></a>
-              <a href="#experience">
-                See my experience <Icon name="arrow" size={17} />
-              </a>
+              <a className="about-ethics-link" href={sitePath("legacy/engineering-ethics.html")}>Read my engineering ethics page <Icon name="external" size={16} /></a>
             </div>
-            <div className="skills-card">
+            <div className="skills-card about-skills">
               <div className="skills-header">
                 <Icon name="spark" size={18} />
                 <span>Technical toolkit</span>
@@ -395,39 +377,10 @@ export default function App() {
               Let’s build something <em>meaningful.</em>
             </h2>
             <p>
-              I’m always open to research collaborations, internships, and interesting visualization
-              problems.
+              I’m open to research collaborations, internships, and interesting visualization problems.
             </p>
           </div>
-          <form onSubmit={submitContact}>
-            <label>
-              Email
-              <input name="email" type="email" placeholder="you@example.com" required />
-            </label>
-            <label>
-              Subject
-              <input
-                name="subject"
-                type="text"
-                placeholder="What would you like to discuss?"
-                required
-              />
-            </label>
-            <label>
-              Message
-              <textarea
-                name="message"
-                rows={4}
-                placeholder="Tell me a little about your idea..."
-                required
-              />
-            </label>
-            <button className="button send-button" type="submit">
-              Send message <Icon name="arrow" size={17} />
-            </button>
-          </form>
           <div className="contact-links">
-            <a href="mailto:zsamac@iu.edu">zsamac@iu.edu</a>
             <a href="https://www.linkedin.com/in/zeynep-amac/" target="_blank" rel="noreferrer">LinkedIn</a>
             <a href="https://github.com/zeynepamac01" target="_blank" rel="noreferrer">GitHub</a>
           </div>
