@@ -1,4 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@1,6..72,500&display=swap");
 @import "tailwindcss";
 
 :root {
@@ -30,7 +29,7 @@ body,
   body {
     background: var(--paper);
     color: var(--ink);
-    font-family: "Manrope", sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
   }
   ::selection {
@@ -72,7 +71,7 @@ main > section {
 .site-header {
   align-items: center;
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  grid-template-columns: minmax(0, 1fr);
   height: 76px;
   left: 0;
   padding: 0 clamp(24px, 5vw, 72px);
@@ -91,34 +90,11 @@ main > section {
   height: 66px;
   backdrop-filter: blur(16px);
 }
-.brand {
-  align-items: center;
-  display: inline-flex;
-  gap: 11px;
-  justify-self: start;
-}
-.brand > span {
-  align-items: center;
-  background: var(--navy);
-  border-radius: 50%;
-  color: white;
-  display: flex;
-  font-family: "DM Mono", monospace;
-  font-size: 11px;
-  height: 34px;
-  justify-content: center;
-  letter-spacing: -0.04em;
-  width: 34px;
-}
-.brand strong {
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-}
 .site-header nav {
   align-items: center;
   display: flex;
   gap: 34px;
+  justify-self: center;
 }
 .site-header nav a {
   color: #596078;
@@ -129,25 +105,12 @@ main > section {
 .site-header nav a:hover {
   color: var(--ink);
 }
-.site-header:not(.is-scrolled) .brand > span {
-  background: #e8edf3;
-  color: #10151d;
-}
-.site-header:not(.is-scrolled) .brand strong,
 .site-header:not(.is-scrolled) nav a,
 .site-header:not(.is-scrolled) .menu-button {
   color: #e4eaf1;
 }
 .site-header:not(.is-scrolled) nav a:hover {
   color: #fff;
-}
-.button svg,
-.about-copy a svg {
-  transition: transform 0.2s;
-}
-.button:hover svg,
-.about-copy a:hover svg {
-  transform: translateX(3px);
 }
 .menu-button {
   background: transparent;
@@ -167,17 +130,6 @@ main > section {
   padding: 140px clamp(24px, 7vw, 112px) 60px;
   position: relative;
 }
-.hero-grid {
-  background-image:
-    linear-gradient(rgba(134, 184, 194, 0.055) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(134, 184, 194, 0.055) 1px, transparent 1px);
-  background-size: 56px 56px;
-  inset: 0;
-  mask-image: radial-gradient(ellipse at 70% 50%, black, transparent 82%);
-  position: absolute;
-  pointer-events: none;
-  z-index: 1;
-}
 .particle-field {
   height: 100%;
   inset: 0;
@@ -188,24 +140,20 @@ main > section {
 }
 .hero-copy {
   max-width: 1020px;
+  margin-inline: auto;
   position: relative;
+  text-align: center;
   z-index: 2;
 }
 .hero h1 {
   font-size: clamp(64px, 10vw, 132px);
   line-height: 0.92;
   margin: 28px 0 24px;
-}
-.hero .eyebrow,
-.hero-foot {
-  color: #aab6c4;
-}
-.hero .eyebrow span {
-  background: #72e8d0;
-  box-shadow: 0 0 12px rgba(114, 232, 208, 0.55);
+  text-align: center;
 }
 .hero-copy > p {
   color: #b3bfcc;
+  margin-inline: auto;
 }
 .hero .button.primary {
   background: #eef4f8;
@@ -215,15 +163,12 @@ main > section {
   border-color: rgba(238, 244, 248, 0.55);
   color: #eef4f8;
 }
-.hero-foot {
-  z-index: 2;
-}
 .eyebrow,
 .kicker {
   align-items: center;
   color: #596078;
   display: flex;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 10px;
   font-weight: 500;
   gap: 10px;
@@ -248,7 +193,8 @@ main > section {
   margin: 28px 0 30px;
 }
 em {
-  font-family: "Newsreader", serif;
+  font-family: inherit;
+  font-style: italic;
   font-weight: 500;
 }
 .hero-copy > p {
@@ -261,6 +207,7 @@ em {
   align-items: center;
   display: flex;
   gap: 24px;
+  justify-content: center;
   margin-top: 38px;
 }
 .button {
@@ -340,7 +287,7 @@ em {
 }
 .core small {
   color: #cbd2f4;
-  font-family: "DM Mono";
+  font-family: inherit;
   font-size: 8px;
   letter-spacing: 0.18em;
 }
@@ -367,7 +314,7 @@ em {
 }
 .art-card span {
   color: var(--muted);
-  font-family: "DM Mono";
+  font-family: inherit;
   font-size: 8px;
   letter-spacing: 0.08em;
 }
@@ -414,30 +361,6 @@ em {
 .n4 {
   left: 87px;
   top: 205px;
-}
-.hero-foot {
-  align-items: center;
-  bottom: 30px;
-  color: var(--muted);
-  display: flex;
-  font-family: "DM Mono";
-  font-size: 9px;
-  justify-content: space-between;
-  left: clamp(24px, 7vw, 112px);
-  position: absolute;
-  right: clamp(24px, 7vw, 112px);
-  text-transform: uppercase;
-}
-.scroll-label {
-  align-items: center;
-  display: flex;
-  gap: 10px;
-}
-.scroll-label i {
-  background: var(--ink);
-  display: inline-block;
-  height: 1px;
-  width: 36px;
 }
 
 .section {
@@ -493,7 +416,7 @@ em {
   position: relative;
 }
 .project-number {
-  font-family: "DM Mono";
+  font-family: inherit;
   font-size: 10px;
   left: 24px;
   position: absolute;
@@ -514,7 +437,7 @@ em {
   align-items: center;
   color: #555;
   display: flex;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 11px;
   height: 100%;
   justify-content: center;
@@ -525,24 +448,12 @@ em {
   text-decoration: underline;
   text-underline-offset: 4px;
 }
-.project-arrow {
-  align-items: center;
-  background: rgba(255, 255, 255, 0.92);
-  border-radius: 50%;
-  display: flex;
-  height: 39px;
-  justify-content: center;
-  position: absolute;
-  right: 18px;
-  top: 18px;
-  width: 39px;
-}
 .project-content {
   padding: 27px 30px 30px;
 }
 .project-content > p {
   color: var(--muted);
-  font-family: "DM Mono";
+  font-family: inherit;
   font-size: 9px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -567,7 +478,7 @@ em {
 .tags span {
   border: 1px solid var(--line);
   border-radius: 99px;
-  font-family: "DM Mono";
+  font-family: inherit;
   font-size: 8px;
   padding: 6px 9px;
 }
@@ -724,11 +635,11 @@ em {
 }
 .timeline-index {
   color: #a4aca8;
-  font-family: "DM Mono";
+  font-family: inherit;
   font-size: 10px;
 }
 .timeline-item time {
-  font-family: "DM Mono";
+  font-family: inherit;
   font-size: 9px;
   text-transform: uppercase;
 }
@@ -739,7 +650,7 @@ em {
 }
 .timeline-item h4 {
   color: #59699f;
-  font-family: "DM Mono";
+  font-family: inherit;
   font-size: 9px;
   font-weight: 500;
   text-transform: uppercase;
@@ -821,7 +732,7 @@ em {
   align-items: center;
   border-bottom: 1px solid #cbd0c9;
   display: flex;
-  font-family: "DM Mono";
+  font-family: inherit;
   font-size: 10px;
   gap: 10px;
   padding: 20px 0;
@@ -840,7 +751,7 @@ em {
 }
 .skill-row > span {
   color: #9ba49f;
-  font-family: "DM Mono";
+  font-family: inherit;
   font-size: 8px;
 }
 .skill-row strong {
@@ -854,7 +765,7 @@ em {
 .skill-row i {
   background: white;
   border-radius: 2px;
-  font-family: "DM Mono";
+  font-family: inherit;
   font-size: 7px;
   font-style: normal;
   padding: 5px 7px;
@@ -878,7 +789,7 @@ em {
 }
 .involvement-grid span {
   color: #6d748b;
-  font-family: "DM Mono";
+  font-family: inherit;
   font-size: 8px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -890,7 +801,7 @@ em {
 }
 .involvement-grid p {
   color: #555;
-  font-family: "DM Mono";
+  font-family: inherit;
   font-size: 9px;
   text-transform: uppercase;
 }
@@ -924,54 +835,55 @@ em {
   margin-inline: auto;
   max-width: 560px;
 }
-.contact-links {
-  align-self: center;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 18px;
-  grid-column: 1;
-  justify-content: center;
-  margin-top: 0;
+.contact-form {
+  display: grid;
+  gap: 20px;
+  max-width: 760px;
+  text-align: left;
+  width: 100%;
 }
-.contact-links a {
-  font-size: 12px;
-  text-decoration: underline;
-  text-underline-offset: 3px;
+.contact-form label {
+  color: #55565c;
+  display: grid;
+  font-size: 15px;
+  font-weight: 500;
+  gap: 8px;
 }
-.contact-section label {
-  font-family: "DM Mono";
-  font-size: 8px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-.contact-section input,
-.contact-section textarea {
-  background: transparent;
-  border: 0;
-  border-bottom: 1px solid rgba(23, 26, 43, 0.4);
+.contact-form input,
+.contact-form textarea {
+  background: #fff;
+  border: 1px solid #cfd1d6;
+  border-radius: 6px;
+  color: var(--ink);
   display: block;
-  font-size: 12px;
-  outline: 0;
-  padding: 12px 0;
+  font-size: 16px;
+  outline: none;
+  padding: 14px 16px;
   resize: vertical;
   width: 100%;
 }
-.contact-section input:focus,
-.contact-section textarea:focus {
-  border-color: var(--ink);
+.contact-form input {
+  min-height: 52px;
 }
-.contact-section input::placeholder,
-.contact-section textarea::placeholder {
-  color: rgba(23, 26, 43, 0.55);
+.contact-form textarea {
+  min-height: 170px;
+}
+.contact-form input:focus,
+.contact-form textarea:focus {
+  border-color: #737984;
+  box-shadow: 0 0 0 3px rgba(80, 91, 108, 0.12);
 }
 .send-button {
   align-self: start;
   background: var(--ink);
-  border-radius: 99px;
+  border: 0;
+  border-radius: 6px;
   color: white;
+  font-size: 17px;
+  font-weight: 600;
   justify-self: start;
-  margin-top: 10px;
-  padding: 15px 21px;
+  margin-top: 2px;
+  padding: 16px 24px;
 }
 
 footer {
@@ -982,16 +894,24 @@ footer {
   justify-content: space-between;
   padding: 30px clamp(24px, 7vw, 112px);
 }
-.footer-brand span {
-  background: var(--blue);
-  color: white;
-}
 footer p,
 footer > a {
   color: #9aa4c7;
-  font-family: "DM Mono";
+  font-family: inherit;
   font-size: 8px;
   text-transform: uppercase;
+}
+.footer-links {
+  display: flex;
+  gap: 24px;
+}
+.footer-links a {
+  color: #d2d9e4;
+  font-size: 12px;
+  font-weight: 600;
+}
+.footer-links a:hover {
+  color: #fff;
 }
 
 @media (max-width: 900px) {
@@ -1038,9 +958,6 @@ footer > a {
     margin-top: 30px;
     max-width: 520px;
   }
-  .hero-foot {
-    display: none;
-  }
   .section-heading {
     align-items: start;
     flex-direction: column;
@@ -1069,11 +986,8 @@ footer > a {
   .site-header {
     padding: 0 20px;
   }
-  .brand strong {
-    display: none;
-  }
   .hero {
-    min-height: auto;
+    min-height: 100svh;
     padding: 120px 20px 70px;
   }
   .hero h1 {
@@ -1083,7 +997,7 @@ footer > a {
     font-size: 14px;
   }
   .hero-actions {
-    align-items: start;
+    align-items: center;
     flex-direction: column;
     gap: 14px;
   }
@@ -1181,17 +1095,11 @@ footer > a {
     gap: 22px;
     padding: 85px 20px;
   }
-  .contact-links {
-    grid-column: 1;
-  }
   footer {
     align-items: flex-start;
     flex-direction: column;
     gap: 24px;
     padding: 35px 20px;
-  }
-  footer .brand strong {
-    display: block;
   }
 }
 

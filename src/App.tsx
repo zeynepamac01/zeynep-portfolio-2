@@ -1,38 +1,15 @@
-import { useEffect, useRef, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 
-type IconName = "arrow" | "code" | "external" | "menu" | "spark" | "x";
+type IconName = "menu" | "x";
 
 const sitePath = (path: string) => `${import.meta.env.BASE_URL}${path}`;
 
 const paths: Record<IconName, React.ReactNode> = {
-  arrow: (
-    <>
-      <path d="M5 12h14" />
-      <path d="m13 6 6 6-6 6" />
-    </>
-  ),
-  code: (
-    <>
-      <path d="m8 9-3 3 3 3" />
-      <path d="m16 9 3 3-3 3" />
-      <path d="m14 5-4 14" />
-    </>
-  ),
-  external: (
-    <>
-      <path d="M15 4h5v5" />
-      <path d="M10 14 20 4" />
-      <path d="M20 13v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h6" />
-    </>
-  ),
   menu: (
     <>
       <path d="M4 7h16" />
       <path d="M4 17h16" />
     </>
-  ),
-  spark: (
-    <path d="m12 3-1.2 4.1a5.4 5.4 0 0 1-3.7 3.7L3 12l4.1 1.2a5.4 5.4 0 0 1 3.7 3.7L12 21l1.2-4.1a5.4 5.4 0 0 1 3.7-3.7L21 12l-4.1-1.2a5.4 5.4 0 0 1-3.7-3.7L12 3Z" />
   ),
   x: (
     <>
@@ -70,7 +47,7 @@ function ParticleField() {
 
     type Point = { x: number; y: number; vx: number; vy: number; radius: number; phase: number; color: string };
     const points: Point[] = [];
-    const colors = ["#72e8d0", "#86aaff", "#d29cff"];
+    const colors = ["#9fbac3", "#c0ccd2", "#829eaa"];
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let width = 0;
     let height = 0;
@@ -99,7 +76,7 @@ function ParticleField() {
         }
       }
 
-      const maxDistance = Math.min(150, Math.max(92, width * 0.12));
+      const maxDistance = Math.min(132, Math.max(102, width * 0.095));
       for (let i = 0; i < points.length; i += 1) {
         const point = points[i];
         for (let j = i + 1; j < points.length; j += 1) {
@@ -111,8 +88,8 @@ function ParticleField() {
             context.beginPath();
             context.moveTo(point.x, point.y);
             context.lineTo(other.x, other.y);
-            context.strokeStyle = `rgba(116, 202, 214, ${(1 - distance / maxDistance) * 0.2})`;
-            context.lineWidth = 0.7;
+            context.strokeStyle = `rgba(150, 183, 195, ${(1 - distance / maxDistance) * 0.15})`;
+            context.lineWidth = 0.55;
             context.stroke();
           }
         }
@@ -120,11 +97,22 @@ function ParticleField() {
 
       for (const point of points) {
         const pulse = reducedMotion ? 1 : 0.82 + Math.sin(time * 0.0012 + point.phase) * 0.18;
+        if (point.radius > 1.8) {
+          context.beginPath();
+          context.arc(point.x, point.y, 7 + pulse * 3, 0, Math.PI * 2);
+          context.strokeStyle = "rgba(159, 186, 195, 0.16)";
+          context.lineWidth = 0.6;
+          context.stroke();
+          context.beginPath();
+          context.arc(point.x, point.y, 12 + pulse * 5, 0, Math.PI * 2);
+          context.strokeStyle = "rgba(159, 186, 195, 0.07)";
+          context.stroke();
+        }
         context.beginPath();
         context.arc(point.x, point.y, point.radius * pulse, 0, Math.PI * 2);
         context.fillStyle = point.color;
         context.shadowColor = point.color;
-        context.shadowBlur = 8;
+        context.shadowBlur = point.radius > 1.8 ? 6 : 3;
         context.fill();
         context.shadowBlur = 0;
       }
@@ -138,7 +126,7 @@ function ParticleField() {
       canvas.width = Math.round(width * pixelRatio);
       canvas.height = Math.round(height * pixelRatio);
 
-      const count = Math.min(115, Math.max(46, Math.round((width * height) / 9000)));
+      const count = Math.min(190, Math.max(92, Math.round((width * height) / 7000)));
       points.length = 0;
       for (let i = 0; i < count; i += 1) {
         points.push({
@@ -146,7 +134,7 @@ function ParticleField() {
           y: Math.random() * height,
           vx: (Math.random() - 0.5) * 0.28,
           vy: (Math.random() - 0.5) * 0.24,
-          radius: Math.random() < 0.12 ? 2 : 0.8 + Math.random() * 0.8,
+          radius: Math.random() < 0.08 ? 2.2 : 0.7 + Math.random() * 0.8,
           phase: Math.random() * Math.PI * 2,
           color: colors[Math.floor(Math.random() * colors.length)],
         });
@@ -275,6 +263,16 @@ export default function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
+  const submitContact = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    const sender = String(data.get("email") || "");
+    const subject = encodeURIComponent(String(data.get("subject") || "Portfolio inquiry"));
+    const message = String(data.get("message") || "");
+    const body = encodeURIComponent(`${message}\n\nFrom: ${sender}`);
+    window.location.href = `mailto:zsamac@iu.edu?subject=${subject}&body=${body}`;
+  };
+
   const closeMenu = () => setMenuOpen(false);
 
   return (
@@ -283,10 +281,6 @@ export default function App() {
       onScroll={(event) => setScrolled(event.currentTarget.scrollTop > 20)}
     >
       <header className={`site-header ${scrolled ? "is-scrolled" : ""}`}>
-        <a className="brand" href="#home" onClick={closeMenu} aria-label="Zeynep S. Amac, home">
-          <span>ZA</span>
-          <strong>Zeynep S. Amac</strong>
-        </a>
         <nav className={menuOpen ? "is-open" : ""} aria-label="Main navigation">
           <a href="#home" onClick={closeMenu}>
             Home
@@ -319,26 +313,18 @@ export default function App() {
 
       <main>
         <section className="hero" id="home">
-          <div className="hero-grid" />
           <ParticleField />
           <div className="hero-copy">
-            <div className="eyebrow"><span /> Portfolio · Bloomington, Indiana</div>
             <h1>Zeynep S. Amac</h1>
             <p>Intelligent Systems Engineering student at Indiana University, building visualization pipelines for the Human Reference Atlas.</p>
             <div className="hero-actions">
               <a className="button primary" href="#work">
-                Explore my work <Icon name="arrow" size={17} />
+                Explore my work
               </a>
               <a className="button text-button" href={sitePath("legacy/Zeynep_S_Amac_CV.pdf")} target="_blank" rel="noreferrer">
-                View resume (PDF) <Icon name="external" size={16} />
+                View resume (PDF)
               </a>
             </div>
-          </div>
-          <div className="hero-foot">
-            <span>Based in Bloomington, Indiana</span>
-            <span className="scroll-label">
-              Scroll to explore <i />
-            </span>
           </div>
         </section>
 
@@ -365,7 +351,6 @@ export default function App() {
                   ) : (
                     <div className="project-placeholder"><span>Upcoming project</span></div>
                   )}
-                  {project.href && <a className="project-arrow" href={project.href} aria-label={`Read more about ${project.title}`}><Icon name="external" size={18} /></a>}
                 </div>
                 <div className="project-content">
                   <p>{project.subtitle}</p>
@@ -460,11 +445,10 @@ export default function App() {
               <p className="about-bio">
                 I’m an Intelligent Systems Engineering student at Indiana University, graduating in May 2029 with a bioengineering concentration. I’m a Hutton Honors Scholar, Provost Scholar, and Groups Scholar. My interests bring biology, data visualization, and design together.
               </p>
-              <a className="about-ethics-link" href={sitePath("legacy/engineering-ethics.html")}>Read my engineering ethics page <Icon name="external" size={16} /></a>
+              <a className="about-ethics-link" href={sitePath("legacy/engineering-ethics.html")}>Read my engineering ethics page</a>
             </div>
             <div className="skills-card about-skills">
               <div className="skills-header">
-                <Icon name="spark" size={18} />
                 <span>Technical toolkit</span>
               </div>
               {skills.map((group, index) => (
@@ -492,18 +476,29 @@ export default function App() {
               I’m open to research collaborations, internships, and interesting visualization problems.
             </p>
           </div>
-          <div className="contact-links">
-            <a href="https://www.linkedin.com/in/zeynep-amac/" target="_blank" rel="noreferrer">LinkedIn</a>
-            <a href="https://github.com/zeynepamac01" target="_blank" rel="noreferrer">GitHub</a>
-          </div>
+          <form className="contact-form" onSubmit={submitContact}>
+            <label>
+              Your email
+              <input name="email" type="email" autoComplete="email" required />
+            </label>
+            <label>
+              Subject
+              <input name="subject" type="text" required />
+            </label>
+            <label>
+              Message
+              <textarea name="message" rows={6} required />
+            </label>
+            <button className="send-button" type="submit">Send message</button>
+          </form>
         </section>
       </main>
 
       <footer>
-        <a className="brand footer-brand" href="#home">
-          <span>ZA</span>
-          <strong>Zeynep S. Amac</strong>
-        </a>
+        <div className="footer-links">
+          <a href="https://github.com/zeynepamac01" target="_blank" rel="noreferrer">GitHub</a>
+          <a href="https://www.linkedin.com/in/zeynep-amac/" target="_blank" rel="noreferrer">LinkedIn</a>
+        </div>
         <a href="#home">Back to top ↑</a>
       </footer>
     </div>
