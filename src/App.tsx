@@ -2,6 +2,8 @@ import { FormEvent, useState } from "react";
 
 type IconName = "arrow" | "code" | "external" | "menu" | "spark" | "x";
 
+const sitePath = (path: string) => `${import.meta.env.BASE_URL}${path}`;
+
 const paths: Record<IconName, React.ReactNode> = {
   arrow: (
     <>
@@ -67,8 +69,8 @@ const projects = [
       "Updated and validated 4,000+ anatomical structures, adapted the pipeline to generate organ-specific multiscale trees, and built a Python utility for future Atlas releases. Presented the work at IU’s 2025 Summer Poster Symposium and contributed visual content to MIT Press’s Atlas of Macroscopes.",
     tags: ["Python", "Vega", "Jupyter"],
     accent: "coral",
-    image: "/legacy/vega_mouth_tree_viz.svg",
-    href: "/legacy/project-human-reference-atlas.html",
+    image: sitePath("legacy/vega_mouth_tree_viz.svg"),
+    href: sitePath("legacy/project-human-reference-atlas.html"),
   },
   {
     number: "02",
@@ -78,8 +80,8 @@ const projects = [
       "A grid-based educational game built in C, using arrays, structs, and file handling to teach environmental decision-making through gameplay.",
     tags: ["C", "Game logic", "Education"],
     accent: "blue",
-    image: "/legacy/Bee_game_ss.png",
-    href: "/legacy/project-bee-game.html",
+    image: sitePath("legacy/Bee_game_ss.png"),
+    href: sitePath("legacy/project-bee-game.html"),
   },
   {
     number: "03",
@@ -89,8 +91,8 @@ const projects = [
       "An educational board game prototype introducing AI literacy and iterative learning to students ages 10–14 through tactile, collaborative play.",
     tags: ["Design", "Robotics", "Teaching"],
     accent: "lime",
-    image: "/legacy/robot_rescue_photo.png",
-    href: "/legacy/project-robot-rescue.html",
+    image: sitePath("legacy/robot_rescue_photo.png"),
+    href: sitePath("legacy/project-robot-rescue.html"),
   },
   {
     number: "04",
@@ -100,8 +102,8 @@ const projects = [
       "A scientific visualization showing connections between functional tissue units and the vascular common coordinate framework across anatomical scales.",
     tags: ["Python", "Data viz", "Research"],
     accent: "violet",
-    image: "/legacy/large_intestine_vasculature_ftus_vega.svg",
-    href: "/legacy/project-macroscopes.html",
+    image: sitePath("legacy/large_intestine_vasculature_ftus_vega.svg"),
+    href: sitePath("legacy/project-macroscopes.html"),
   },
 ];
 
@@ -214,7 +216,7 @@ export default function App() {
               <a className="button text-button" href="#experience">
                 View experience
               </a>
-              <a className="button text-button" href="/legacy/Zeynep_S_Amac_CV.pdf" target="_blank" rel="noreferrer">
+              <a className="button text-button" href={sitePath("legacy/Zeynep_S_Amac_CV.pdf")} target="_blank" rel="noreferrer">
                 Download CV <Icon name="external" size={16} />
               </a>
             </div>
@@ -336,7 +338,7 @@ export default function App() {
                 Outside the lab, you’ll find me exploring visual design, mentoring students, or
                 finding the clearest way to tell a story with data.
               </p>
-              <a href="/legacy/engineering-ethics.html">Read my engineering ethics page <Icon name="external" size={16} /></a>
+              <a href={sitePath("legacy/engineering-ethics.html")}>Read my engineering ethics page <Icon name="external" size={16} /></a>
               <a href="#experience">
                 See my experience <Icon name="arrow" size={17} />
               </a>
